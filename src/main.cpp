@@ -1,26 +1,37 @@
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <string>
+
+#include "algorithms.hpp"
 
 using namespace std;
 
-int main()
-{
-    string plaintext;
-
-    ifstream MyReadFile("input/plaintext.txt");
-
-    while (getline(MyReadFile, plaintext))
-    {
-        cout << plaintext << endl;
+/* Reads .txt in the "in" folder and outputs the encrypted text based on a
+   chosen algorithm. */
+int main() {
+    list<string> lines;
+    ifstream plaintext("in/plaintext.txt");
+    
+    if (plaintext.is_open()) {
+        string l;
+        while (getline(plaintext, l)) {
+            lines.push_back(l);
+        }
+        plaintext.close();
+    } else {
+        cout << "File cannot be opened." << endl;
     }
 
-    MyReadFile.close();
-
-    for (int i = 0; i < plaintext.length(); i++)
-    {
-        plaintext[i] += 1;
+    cout << "Plaintext:" << endl;
+    for (string l : lines) {
+        cout << l << endl;
     }
 
-    cout << plaintext << endl;
+    cout << endl << "Cipher: " << endl;
+    for (string l : lines) {
+        cout << shiftCypher(l) << endl;
+    }
+
+    return 0;
 }
