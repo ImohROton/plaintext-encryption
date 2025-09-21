@@ -12,7 +12,9 @@ using namespace std;
 int main() {
     list<string> lines;
     ifstream plaintext("in/plaintext.txt");
-    
+
+    remove("out/cipher.txt");
+
     if (plaintext.is_open()) {
         string l;
         while (getline(plaintext, l)) {
@@ -28,9 +30,29 @@ int main() {
         cout << l << endl;
     }
 
+    ofstream cipher1("out/cipher.txt");
+
+    for (string l : lines) {
+        cipher1 << shiftCypher(l) << endl;
+    }
+    cipher1.close();
+
+    ifstream cipher2("out/cipher.txt");
+
+    if (cipher2.is_open()) {
+        
+
+        lines.clear();
+        string l;
+        while (getline(cipher2, l)) {
+            lines.push_back(l);
+        }
+        cipher2.close();
+    }
+
     cout << endl << "Cipher: " << endl;
     for (string l : lines) {
-        cout << shiftCypher(l) << endl;
+        cout << l << endl;
     }
 
     return 0;
